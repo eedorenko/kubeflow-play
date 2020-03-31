@@ -1,3 +1,4 @@
+dasdas
 FROM tensorflow/tensorflow:2.0.0a0-gpu-py3
 RUN pip install --upgrade pip pillow && \
     pip install azureml-sdk==1.1.5.1 azure-cli==2.2.0
