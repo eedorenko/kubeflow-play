@@ -105,26 +105,26 @@ def tacosandburritos_train(
   )
   operations['profile'].after(operations['register'])
 
-  operations['deploy'] = dsl.ContainerOp(
-    name='deploy',
-    image='insert your image here',
-    command=['sh'],
-    arguments=[
-      '/scripts/deploy.sh',
-      '-n', model_name,
-      '-m', model_name,
-      '-i', '/scripts/inferenceconfig.json',
-      '-d', '/scripts/deploymentconfig.json',
-      '-t', tenant_id,
-      '-r', resource_group,
-      '-w', workspace,
-      '-s', service_principal_id,
-      '-p', service_principal_password,
-      '-u', subscription_id,
-      '-b', persistent_volume_path
-    ]
-  )
-  operations['deploy'].after(operations['profile'])
+  # operations['deploy'] = dsl.ContainerOp(
+  #   name='deploy',
+  #   image='insert your image here',
+  #   command=['sh'],
+  #   arguments=[
+  #     '/scripts/deploy.sh',
+  #     '-n', model_name,
+  #     '-m', model_name,
+  #     '-i', '/scripts/inferenceconfig.json',
+  #     '-d', '/scripts/deploymentconfig.json',
+  #     '-t', tenant_id,
+  #     '-r', resource_group,
+  #     '-w', workspace,
+  #     '-s', service_principal_id,
+  #     '-p', service_principal_password,
+  #     '-u', subscription_id,
+  #     '-b', persistent_volume_path
+  #   ]
+  # )
+  # operations['deploy'].after(operations['profile'])
   for _, op_1 in operations.items():
     op_1.container.set_image_pull_policy("Always")
     op_1.add_volume(
