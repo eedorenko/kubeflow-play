@@ -140,7 +140,7 @@ jobs:
       with:
         # Artifact name
         name: kfp-pipeline        
-        path: *.tar.gz
+        path: '*.tar.gz'
 
 
         # Runs a single command using the runners shell
