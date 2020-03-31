@@ -118,6 +118,10 @@ jobs:
         # The folder in the Github repo that holds the source
         folder: code/training
 
+    - name: Build KF Pipeline
+      run: code/pipeline.py
+      shell: python
+
         # Runs a single command using the runners shell
     # - name: Run lint tests
     #   run: flake8 --output-file=lint-testresults.xml --format junit-xml
