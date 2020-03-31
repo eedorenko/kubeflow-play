@@ -135,6 +135,9 @@ jobs:
       run: python pipeline.py
       working-directory: code
 
+    - name: Publish/Upload KF Pipeline
+      run: python publish_pipeline.py
+      working-directory: code
 
     - name: Find the file
       run: |
