@@ -135,6 +135,12 @@ jobs:
       run: python pipeline.py
       working-directory: code
 
+
+    - name: Find the file
+      run: |
+        ls -ltr
+        ls -ltr code
+
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
