@@ -146,7 +146,7 @@ jobs:
       with:
         # Artifact name
         name: kfp-pipeline        
-        path: 'pipeline.tar.gz'
+        path: 'code/pipeline.py.tar.gz'
 
 
         # Runs a single command using the runners shell
