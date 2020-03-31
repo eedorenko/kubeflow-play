@@ -1,5 +1,5 @@
 name: CI
-
+# The whole thing should be decomposed into pr/ci/cd and chatops
 on:
   push:
     branches: [ master ]
@@ -33,9 +33,9 @@ jobs:
         # Azure Container Registry tenant
         tenant: ${{ secrets.TENANT }}
         # The name of the ACR, minus the .azurecr.io
-        registry: $ACR_REGISTRY
+        registry: ${{ env.ACR_REGISTRY }}
         # Repository to use
-        repository: $ACR_REPOSITORY
+        repository: ${{ env.ACR_REPOSITORY }}
         # Docker image name
         image: preprocess
         # The folder in the Github repo that holds the source
