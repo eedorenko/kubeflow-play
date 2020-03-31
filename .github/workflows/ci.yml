@@ -123,10 +123,16 @@ jobs:
     #     # The folder in the Github repo that holds the source
     #     folder: code/training
 
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    
+    - name: Install KFP SDK
+      run: pip3 install kfp --upgrade
+
     - name: Build KF Pipeline
-      run: |
-          pip3 install kfp --upgrade
-          python pipeline.py
+      run: python pipeline.py
       working-directory: code
 
         # Runs a single command using the runners shell
