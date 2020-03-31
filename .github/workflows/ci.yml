@@ -124,9 +124,8 @@ jobs:
     #     folder: code/training
 
     - name: Build KF Pipeline
-      run: pipeline.py
+      run: python pipeline.py
       working-directory: code
-      shell: python
 
         # Runs a single command using the runners shell
     # - name: Run lint tests
