@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  ACR_REGISTRY: 'kubeflowplayacr'
+  ACR_REPOSITORY: 'mexicanfood'
+
 jobs:
   ci:
     # The type of runner that the job will run on
@@ -13,10 +17,30 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - uses: actions/checkout@v2
+
     - uses: TrueBrain/actions-flake8@master
       if: 'false'
       with:
         path: code    
+
+    - name: Build Preprocess Image
+      uses: ams0/acr-task-github-action@v1
+      with:
+        # Service Principal with Contributor role on the ACR
+        service_principal: ${{ secrets.SERVICE_PRINCIPAL }}
+        # Service Principal password
+        service_principal_password: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+        # Azure Container Registry tenant
+        tenant: ${{ secrets.TENANT }}
+        # The name of the ACR, minus the .azurecr.io
+        registry: $ACR_REGISTRY
+        # Repository to use
+        repository: $ACR_REPOSITORY
+        # Docker image name
+        image: preprocess
+        # The folder in the Github repo that holds the source
+        folder: code/preprocess
+
 
     # Runs a single command using the runners shell
     # - name: Run lint tests
