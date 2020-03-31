@@ -1,10 +1,9 @@
 name: CI
 # The whole thing should be decomposed into pr/ci/cd and chatops
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: push  
+  #   branches: [ master ]
+  # pull_request:
+  #   branches: [ master ]
 
 env:
   ACR_REGISTRY: 'kubeflowplayacr'
