@@ -48,7 +48,7 @@ def tacosandburritos_train(
   # train
   operations['training'] = dsl.ContainerOp(
     name='training',
-    image='kubeflowplayacr.azurecr.io/mexicanfood/train:latest',
+    image='kubeflowplayacr.azurecr.io/mexicanfood/training:latest',
     command=['python'],
     arguments=[
       '/scripts/train.py',
