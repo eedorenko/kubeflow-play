@@ -81,8 +81,10 @@ def run(
 
   # training data
   train_data, train_labels = zip(*train)
+  print(train_labels) 
   train_ds = Dataset.zip((Dataset.from_tensor_slices(list(train_data)),
-                          Dataset.from_tensor_slices(list(train_labels)), img_size))
+                          Dataset.from_tensor_slices(list(train_data)),
+                          img_size))
 
   train_ds = train_ds.map(map_func=process_image,
                           num_parallel_calls=5)
