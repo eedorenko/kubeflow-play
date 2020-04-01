@@ -82,6 +82,9 @@ if __name__ == "__main__":
     if i == 'service_principal_password':
       print('{} => **********'.format(i))
     else:
+      print('{} => {}'.format(i, wsrgs[i]))
+
+  for i in rgs:
       print('{} => {}'.format(i, rgs[i]))
 
   with(open(str(params_path), 'r')) as f:

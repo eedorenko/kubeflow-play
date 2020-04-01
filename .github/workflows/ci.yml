@@ -83,25 +83,25 @@ jobs:
     #     # The folder in the Github repo that holds the source
     #     folder: code/deploy
 
-    # - name: Build Register Image
-    #   uses: ams0/acr-task-github-action@v1
-    #   with:
-    #     # Service Principal with Contributor role on the ACR
-    #     service_principal: ${{ secrets.SERVICE_PRINCIPAL }}
-    #     # Service Principal password
-    #     service_principal_password: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
-    #     # Azure Container Registry tenant
-    #     tenant: ${{ secrets.TENANT }}
-    #     # The name of the ACR, minus the .azurecr.io
-    #     registry: ${{ env.ACR_REGISTRY }}
-    #     # Repository to use
-    #     repository: ${{ env.ACR_REPOSITORY }}
-    #     branch: kubeflow
-    #     tag: latest
-    #     # Docker image name
-    #     image: register
-    #     # The folder in the Github repo that holds the source
-    #     folder: code/register
+    - name: Build Register Image
+      uses: ams0/acr-task-github-action@v1
+      with:
+        # Service Principal with Contributor role on the ACR
+        service_principal: ${{ secrets.SERVICE_PRINCIPAL }}
+        # Service Principal password
+        service_principal_password: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+        # Azure Container Registry tenant
+        tenant: ${{ secrets.TENANT }}
+        # The name of the ACR, minus the .azurecr.io
+        registry: ${{ env.ACR_REGISTRY }}
+        # Repository to use
+        repository: ${{ env.ACR_REPOSITORY }}
+        branch: kubeflow
+        tag: latest
+        # Docker image name
+        image: register
+        # The folder in the Github repo that holds the source
+        folder: code/register
 
     - name: Build Training Image
       uses: ams0/acr-task-github-action@v1
