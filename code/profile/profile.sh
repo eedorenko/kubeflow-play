@@ -19,4 +19,4 @@ done
 # az ml model profile -n $PROFILE_NAME -m ${MODEL}:1 --ic $INFERENCE_CONFIG -d $DATA -t myprofileresult.json -w $WORKSPACE -g $RESOURCE_GROUP
 # mv myprofileresult.json ${BASE_PATH}/myprofileresult.json
 # echo ${BASE_PATH}
-echo "It takes ridiculously long" 
+echo "It takes ridiculously long, so skip it" 

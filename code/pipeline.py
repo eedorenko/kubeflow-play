@@ -29,11 +29,12 @@ def tacosandburritos_train(
   training_folder = 'train'
   training_dataset = 'train.txt'
   model_folder = 'model'
+  image_repo_name = "kubeflowyoacr.azurecr.io/mexicanfood"
 
   # preprocess data
   operations['preprocess'] = dsl.ContainerOp(
     name='preprocess',
-    image='kubeflowplayacr.azurecr.io/mexicanfood/preprocess:latest',
+    image=image_repo_name + '/preprocess:latest',
     command=['python'],
     arguments=[
       '/scripts/data.py',
@@ -48,7 +49,7 @@ def tacosandburritos_train(
   # train
   operations['training'] = dsl.ContainerOp(
     name='training',
-    image='kubeflowplayacr.azurecr.io/mexicanfood/training:latest',
+    image=image_repo_name + '/training:latest',
     command=['python'],
     arguments=[
       '/scripts/train.py',
@@ -67,7 +68,7 @@ def tacosandburritos_train(
   # register model
   operations['register'] = dsl.ContainerOp(
     name='register',
-    image='kubeflowplayacr.azurecr.io/mexicanfood/register:latest',
+    image=image_repo_name + '/register:latest',
     command=['python'],
     arguments=[
       '/scripts/register.py',
@@ -86,7 +87,7 @@ def tacosandburritos_train(
 
   operations['profile'] = dsl.ContainerOp(
     name='profile',
-    image='kubeflowplayacr.azurecr.io/mexicanfood/profile:latest',
+    image=image_repo_name + '/profile:latest',
     command=['sh'],
     arguments=[
       '/scripts/profile.sh',
@@ -107,7 +108,7 @@ def tacosandburritos_train(
 
   operations['deploy'] = dsl.ContainerOp(
     name='deploy',
-    image='kubeflowplayacr.azurecr.io/mexicanfood/deploy:latest',
+    image=image_repo_name + '/deploy:latest',
     command=['sh'],
     arguments=[
       '/scripts/deploy.sh',

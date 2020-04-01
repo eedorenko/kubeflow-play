@@ -153,51 +153,51 @@ def generate_hash(dfile, key):
 
 
 if __name__ == "__main__":
-  print("Ok")
-  # parser = argparse.ArgumentParser(description='transfer learning for binary image task')
-  # parser.add_argument('-s', '--base_path', help='directory to base data', default='../../data')
-  # parser.add_argument('-d', '--data', help='directory to training and test data', default='train')
-  # parser.add_argument('-e', '--epochs', help='number of epochs', default=10, type=int)
-  # parser.add_argument('-b', '--batch', help='batch size', default=32, type=int)
-  # parser.add_argument('-i', '--image_size', help='image size', default=160, type=int)
-  # parser.add_argument('-l', '--lr', help='learning rate', default=0.0001, type=float)
-  # parser.add_argument('-o', '--outputs', help='output directory', default='model')
-  # parser.add_argument('-f', '--dataset', help='cleaned data listing')
-  # args = parser.parse_args()
+  # print("Ok")
+  parser = argparse.ArgumentParser(description='transfer learning for binary image task')
+  parser.add_argument('-s', '--base_path', help='directory to base data', default='../../data')
+  parser.add_argument('-d', '--data', help='directory to training and test data', default='train')
+  parser.add_argument('-e', '--epochs', help='number of epochs', default=10, type=int)
+  parser.add_argument('-b', '--batch', help='batch size', default=32, type=int)
+  parser.add_argument('-i', '--image_size', help='image size', default=160, type=int)
+  parser.add_argument('-l', '--lr', help='learning rate', default=0.0001, type=float)
+  parser.add_argument('-o', '--outputs', help='output directory', default='model')
+  parser.add_argument('-f', '--dataset', help='cleaned data listing')
+  args = parser.parse_args()
 
-  # info('Using TensorFlow v.{}'.format(tf.__version__))
+  info('Using TensorFlow v.{}'.format(tf.__version__))
 
-  # data_path = Path(args.base_path).joinpath(args.data).resolve(strict=False)
-  # target_path = Path(args.base_path).resolve(strict=False).joinpath(args.outputs)
-  # dataset = Path(args.base_path).joinpath(args.dataset)
-  # image_size = args.image_size
+  data_path = Path(args.base_path).joinpath(args.data).resolve(strict=False)
+  target_path = Path(args.base_path).resolve(strict=False).joinpath(args.outputs)
+  dataset = Path(args.base_path).joinpath(args.dataset)
+  image_size = args.image_size
 
-  # params = Path(args.base_path).joinpath('params.json')
+  params = Path(args.base_path).joinpath('params.json')
 
-  # args = {
-  #   "dpath": str(data_path),
-  #   "img_size": image_size,
-  #   "epochs": args.epochs,
-  #   "batch_size": args.batch,
-  #   "learning_rate": args.lr,
-  #   "output": str(target_path),
-  #   "dset": str(dataset)
-  # }
+  args = {
+    "dpath": str(data_path),
+    "img_size": image_size,
+    "epochs": args.epochs,
+    "batch_size": args.batch,
+    "learning_rate": args.lr,
+    "output": str(target_path),
+    "dset": str(dataset)
+  }
 
-  # dataset_signature = generate_hash(dataset, 'kf_pipeline')
-  # # printing out args for posterity
-  # for i in args:
-  #   print('{} => {}'.format(i, args[i]))
+  dataset_signature = generate_hash(dataset, 'kf_pipeline')
+  # printing out args for posterity
+  for i in args:
+    print('{} => {}'.format(i, args[i]))
 
-  # model_signature = run(**args)
+  model_signature = run(**args)
 
-  # args['dataset_signature'] = dataset_signature.upper()
-  # args['model_signature'] = model_signature.upper()
-  # args['model_type'] = 'tfv2-MobileNetV2'
-  # print('Writing out params...', end='')
-  # with open(str(params), 'w') as f:
-  #   json.dump(args, f)
+  args['dataset_signature'] = dataset_signature.upper()
+  args['model_signature'] = model_signature.upper()
+  args['model_type'] = 'tfv2-MobileNetV2'
+  print('Writing out params...', end='')
+  with open(str(params), 'w') as f:
+    json.dump(args, f)
 
-  # print(' Saved to {}'.format(str(params)))
+  print(' Saved to {}'.format(str(params)))
 
   # python train.py -d train -e 3 -b 32 -l 0.0001 -o model -f train.txt
