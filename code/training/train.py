@@ -117,6 +117,7 @@ def run(
   # training
   info('Training')
   steps_per_epoch = math.ceil(len(train) / batch_size)
+  epochs = 2
   model.fit(train_ds, epochs=epochs, steps_per_epoch=steps_per_epoch)
 
   # save model
