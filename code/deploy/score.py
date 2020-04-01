@@ -23,7 +23,6 @@ def init():
   print('Done!')
 
   print('Initialized model "{}" at {}'.format(model_path, datetime.datetime.now()))
-  
 
 
 def run(raw_data):

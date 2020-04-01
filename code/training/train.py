@@ -81,7 +81,7 @@ def run(
 
   # training data
   train_data, train_labels = zip(*train)
-  
+
   train_ds = Dataset.zip((Dataset.from_tensor_slices(list(train_data)),
                           Dataset.from_tensor_slices(list(train_labels))))
 
@@ -117,7 +117,7 @@ def run(
   # training
   info('Training')
   steps_per_epoch = math.ceil(len(train) / batch_size)
-  epochs = 2
+
   model.fit(train_ds, epochs=epochs, steps_per_epoch=steps_per_epoch)
 
   # save model
@@ -153,7 +153,6 @@ def generate_hash(dfile, key):
 
 
 if __name__ == "__main__":
-  # print("Ok")
   parser = argparse.ArgumentParser(description='transfer learning for binary image task')
   parser.add_argument('-s', '--base_path', help='directory to base data', default='../../data')
   parser.add_argument('-d', '--data', help='directory to training and test data', default='train')
