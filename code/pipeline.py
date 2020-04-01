@@ -19,7 +19,7 @@ def tacosandburritos_train(
     """Pipeline steps"""
 
     persistent_volume_path = '/mnt/azure'
-    data_download = 'https://aiadvocate.blob.core.windows.net/public/tacodata.zip'
+    data_download = 'https://aiadvocate.blob.core.windows.net/public/tacodata.zip'  # noqa: E501
     epochs = 2
     batch = 32
     learning_rate = 0.0001
@@ -95,7 +95,7 @@ def tacosandburritos_train(
         '-n', profile_name,
         '-m', model_name,
         '-i', '/scripts/inferenceconfig.json',
-        '-d', '{"image":"https://www.exploreveg.org/files/2015/05/sofritas-burrito.jpeg"}',
+        '-d', '{"image":"https://www.exploreveg.org/files/2015/05/sofritas-burrito.jpeg"}',  # noqa: E501
         '-t', tenant_id,
         '-r', resource_group,
         '-w', workspace,
@@ -128,15 +128,15 @@ def tacosandburritos_train(
     )
     operations['deploy'].after(operations['profile'])
     for _, op_1 in operations.items():
-      op_1.container.set_image_pull_policy("Always")
-      op_1.add_volume(
-        k8s_client.V1Volume(
-          name='azure',
-          persistent_volume_claim=k8s_client.V1PersistentVolumeClaimVolumeSource(
-            claim_name='azure-managed-disk')
-        )
-      ).add_volume_mount(k8s_client.V1VolumeMount(
-        mount_path='/mnt/azure', name='azure'))
+        op_1.container.set_image_pull_policy("Always")
+        op_1.add_volume(
+            k8s_client.V1Volume(
+              name='azure',
+              persistent_volume_claim=k8s_client.V1PersistentVolumeClaimVolumeSource(  # noqa: E501
+                claim_name='azure-managed-disk')
+            )
+        ).add_volume_mount(k8s_client.V1VolumeMount(
+            mount_path='/mnt/azure', name='azure'))
 
 if __name__ == '__main__':
   compiler.Compiler().compile(tacosandburritos_train, __file__ + '.tar.gz')
