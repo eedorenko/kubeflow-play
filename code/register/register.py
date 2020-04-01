@@ -94,7 +94,7 @@ if __name__ == "__main__":
   for tag in tags:
     print('{} => {}'.format(tag, tags[tag]))
 
-  rgs['tags'] = tags
+  rgs['tgs'] = tags
 
   workspc = get_ws(**wsrgs)
   rgs['ws'] = workspc
