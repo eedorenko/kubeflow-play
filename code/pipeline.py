@@ -138,5 +138,6 @@ def tacosandburritos_train(
         ).add_volume_mount(k8s_client.V1VolumeMount(
             mount_path='/mnt/azure', name='azure'))
 
+
 if __name__ == '__main__':
-  compiler.Compiler().compile(tacosandburritos_train, __file__ + '.tar.gz')
+    compiler.Compiler().compile(tacosandburritos_train, __file__ + '.tar.gz')
