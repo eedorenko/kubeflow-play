@@ -74,8 +74,8 @@ def info(msg, char="#", width=75):
 
 if __name__ == "__main__":
     images = {
-        'tacos': 'https://c1.staticflickr.com/5/4022/4401140214_f489c708f0_b.jpg',
-        'burrito': 'https://www.exploreveg.org/files/2015/05/sofritas-burrito.jpeg'
+        'tacos': 'https://c1.staticflickr.com/5/4022/4401140214_f489c708f0_b.jpg',  # noqa: E501
+        'burrito': 'https://www.exploreveg.org/files/2015/05/sofritas-burrito.jpeg'  # noqa: E501
     }
 
     init()

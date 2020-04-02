@@ -16,7 +16,7 @@ def info(msg, char="#", width=75):
 
 
 def get_ws(tenant_id, service_principal_id,
-           service_principal_password, subscription_id, resource_group, workspace):
+           service_principal_password, subscription_id, resource_group, workspace):  # noqa: E501
     auth_args = {
         'tenant_id': tenant_id,
         'service_principal_id': service_principal_id,

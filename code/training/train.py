@@ -50,7 +50,7 @@ def load_dataset(base_path, dset, split=None):
     print('loading dataset from {}'.format(dset))
     with open(dset, 'r') as d:
         data = [(str(Path(line.strip()).absolute()),
-                 labels[Path(line.strip()).parent.name]) for line in d.readlines()]
+                 labels[Path(line.strip()).parent.name]) for line in d.readlines()]  # noqa: E501
 
     print('dataset size: {}\nsuffling data...'.format(len(data)))
 
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--base_path',
                         help='directory to base data', default='../../data')
     parser.add_argument(
-        '-d', '--data', help='directory to training and test data', default='train')
+        '-d', '--data', help='directory to training and test data', default='train')  # noqa: E501
     parser.add_argument(
         '-e', '--epochs', help='number of epochs', default=10, type=int)
     parser.add_argument('-b', '--batch', help='batch size',
