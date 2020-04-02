@@ -5,8 +5,8 @@ import kfp.compiler as compiler
 
 
 @dsl.pipeline(
-  name='Tacos vs. Burritos',
-  description='Simple TF CNN'
+    name='Tacos vs. Burritos',
+    description='Simple TF CNN'
 )
 def tacosandburritos_train(
     tenant_id,
@@ -34,55 +34,55 @@ def tacosandburritos_train(
 
     # preprocess data
     operations['preprocess'] = dsl.ContainerOp(
-      name='preprocess',
-      image=image_repo_name + '/preprocess:latest',
-      command=['python'],
-      arguments=[
-        '/scripts/data.py',
-        '--base_path', persistent_volume_path,
-        '--data', training_folder,
-        '--target', training_dataset,
-        '--img_size', image_size,
-        '--zipfile', data_download
-      ]
+        name='preprocess',
+        image=image_repo_name + '/preprocess:latest',
+        command=['python'],
+        arguments=[
+            '/scripts/data.py',
+            '--base_path', persistent_volume_path,
+            '--data', training_folder,
+            '--target', training_dataset,
+            '--img_size', image_size,
+            '--zipfile', data_download
+        ]
     )
 
     # train
     operations['training'] = dsl.ContainerOp(
-      name='training',
-      image=image_repo_name + '/training:latest',
-      command=['python'],
-      arguments=[
-        '/scripts/train.py',
-        '--base_path', persistent_volume_path,
-        '--data', training_folder,
-        '--epochs', epochs,
-        '--batch', batch,
-        '--image_size', image_size,
-        '--lr', learning_rate,
-        '--outputs', model_folder,
-        '--dataset', training_dataset
-      ]
+        name='training',
+        image=image_repo_name + '/training:latest',
+        command=['python'],
+        arguments=[
+            '/scripts/train.py',
+            '--base_path', persistent_volume_path,
+            '--data', training_folder,
+            '--epochs', epochs,
+            '--batch', batch,
+            '--image_size', image_size,
+            '--lr', learning_rate,
+            '--outputs', model_folder,
+            '--dataset', training_dataset
+        ]
     )
     operations['training'].after(operations['preprocess'])
 
     # register model
     operations['register'] = dsl.ContainerOp(
-      name='register',
-      image=image_repo_name + '/register:latest',
-      command=['python'],
-      arguments=[
-        '/scripts/register.py',
-        '--base_path', persistent_volume_path,
-        '--model', 'latest.h5',
-        '--model_name', model_name,
-        '--tenant_id', tenant_id,
-        '--service_principal_id', service_principal_id,
-        '--service_principal_password', service_principal_password,
-        '--subscription_id', subscription_id,
-        '--resource_group', resource_group,
-        '--workspace', workspace
-      ]
+        name='register',
+        image=image_repo_name + '/register:latest',
+        command=['python'],
+        arguments=[
+            '/scripts/register.py',
+            '--base_path', persistent_volume_path,
+            '--model', 'latest.h5',
+            '--model_name', model_name,
+            '--tenant_id', tenant_id,
+            '--service_principal_id', service_principal_id,
+            '--service_principal_password', service_principal_password,
+            '--subscription_id', subscription_id,
+            '--resource_group', resource_group,
+            '--workspace', workspace
+        ]
     )
     operations['register'].after(operations['training'])
 
@@ -108,23 +108,23 @@ def tacosandburritos_train(
     operations['profile'].after(operations['register'])
 
     operations['deploy'] = dsl.ContainerOp(
-      name='deploy',
-      image=image_repo_name + '/deploy:latest',
-      command=['sh'],
-      arguments=[
-        '/scripts/deploy.sh',
-        '-n', model_name,
-        '-m', model_name,
-        '-i', '/scripts/inferenceconfig.json',
-        '-d', '/scripts/deploymentconfig.json',
-        '-t', tenant_id,
-        '-r', resource_group,
-        '-w', workspace,
-        '-s', service_principal_id,
-        '-p', service_principal_password,
-        '-u', subscription_id,
-        '-b', persistent_volume_path
-      ]
+        name='deploy',
+        image=image_repo_name + '/deploy:latest',
+        command=['sh'],
+        arguments=[
+            '/scripts/deploy.sh',
+            '-n', model_name,
+            '-m', model_name,
+            '-i', '/scripts/inferenceconfig.json',
+            '-d', '/scripts/deploymentconfig.json',
+            '-t', tenant_id,
+            '-r', resource_group,
+            '-w', workspace,
+            '-s', service_principal_id,
+            '-p', service_principal_password,
+            '-u', subscription_id,
+            '-b', persistent_volume_path
+        ]
     )
     operations['deploy'].after(operations['profile'])
     for _, op_1 in operations.items():
