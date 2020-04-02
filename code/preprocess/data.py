@@ -86,13 +86,13 @@ if __name__ == "__main__":
     parser.add_argument(
         '-d', '--data', help='directory to training data', default='train')
     parser.add_argument(
-        '-t', '--target', help='target file to hold good data', default='train.txt')
+        '-t', '--target', help='target file to hold good data', default='train.txt')  # noqa: E501
     parser.add_argument(
-        '-i', '--img_size', help='target image size to verify', default=160, type=int)
+        '-i', '--img_size', help='target image size to verify', default=160, type=int)  # noqa: E501
     parser.add_argument(
-        '-z', '--zipfile', help='source data zip file', default='../../tacodata.zip')
+        '-z', '--zipfile', help='source data zip file', default='../../tacodata.zip')  # noqa: E501
     parser.add_argument('-f', '--force',
-                        help='force clear all data', default=False, action='store_true')
+                        help='force clear all data', default=False, action='store_true')  # noqa: E501
     args = parser.parse_args()
     print(args)
 
@@ -120,5 +120,3 @@ if __name__ == "__main__":
         print('writing dataset to {}'.format(target_path))
         with open(str(target_path), 'w+') as f:
             f.write('\n'.join(images))
-
-    # python data.py -z https://aiadvocate.blob.core.windows.net/public/tacodata.zip -t train.txt
