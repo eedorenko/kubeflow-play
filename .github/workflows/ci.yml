@@ -1,23 +1,165 @@
 name: CI
-
+# The whole thing should be decomposed into pr/ci/cd and chatops
 on:
   push:
-    branches: [ fake ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
+env:
+  ACR_REGISTRY: 'kubeflowyoacr'
+  ACR_REPOSITORY: 'mexicanfood'
+
 jobs:
-  ci:
+  code_quality_checks:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    if: 'false'
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - uses: actions/checkout@v2
+
     - uses: TrueBrain/actions-flake8@master
+      if: 'true'
       with:
         path: code    
 
-    # Runs a single command using the runners shell
+  build_images:
+    runs-on: ubuntu-latest
+    needs: code_quality_checks
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Preprocess Image
+      uses: ams0/acr-task-github-action@v1
+      with:
+        # Service Principal with Contributor role on the ACR
+        service_principal: ${{ secrets.SERVICE_PRINCIPAL }}
+        # Service Principal password
+        service_principal_password: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+        # Azure Container Registry tenant
+        tenant: ${{ secrets.TENANT }}
+        # The name of the ACR, minus the .azurecr.io
+        registry: ${{ env.ACR_REGISTRY }}
+        # Repository to use
+        repository: ${{ env.ACR_REPOSITORY }}
+        branch: kubeflow
+        tag: latest
+        # Docker image name
+        image: preprocess
+        # The folder in the Github repo that holds the source
+        folder: code/preprocess
+    
+    - name: Build Profile Image
+      uses: ams0/acr-task-github-action@v1
+      with:
+        # Service Principal with Contributor role on the ACR
+        service_principal: ${{ secrets.SERVICE_PRINCIPAL }}
+        # Service Principal password
+        service_principal_password: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+        # Azure Container Registry tenant
+        tenant: ${{ secrets.TENANT }}
+        # The name of the ACR, minus the .azurecr.io
+        registry: ${{ env.ACR_REGISTRY }}
+        # Repository to use
+        repository: ${{ env.ACR_REPOSITORY }}
+        branch: kubeflow
+        tag: latest
+        # Docker image name
+        image: profile
+        # The folder in the Github repo that holds the source
+        folder: code/profile
+
+    - name: Build Deploy Image
+      uses: ams0/acr-task-github-action@v1
+      with:
+        # Service Principal with Contributor role on the ACR
+        service_principal: ${{ secrets.SERVICE_PRINCIPAL }}
+        # Service Principal password
+        service_principal_password: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+        # Azure Container Registry tenant
+        tenant: ${{ secrets.TENANT }}
+        # The name of the ACR, minus the .azurecr.io
+        registry: ${{ env.ACR_REGISTRY }}
+        # Repository to use
+        repository: ${{ env.ACR_REPOSITORY }}
+        branch: kubeflow
+        tag: latest
+        # Docker image name
+        image: deploy
+        # The folder in the Github repo that holds the source
+        folder: code/deploy
+
+    - name: Build Register Image
+      uses: ams0/acr-task-github-action@v1
+      with:
+        # Service Principal with Contributor role on the ACR
+        service_principal: ${{ secrets.SERVICE_PRINCIPAL }}
+        # Service Principal password
+        service_principal_password: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+        # Azure Container Registry tenant
+        tenant: ${{ secrets.TENANT }}
+        # The name of the ACR, minus the .azurecr.io
+        registry: ${{ env.ACR_REGISTRY }}
+        # Repository to use
+        repository: ${{ env.ACR_REPOSITORY }}
+        branch: kubeflow
+        tag: latest
+        # Docker image name
+        image: register
+        # The folder in the Github repo that holds the source
+        folder: code/register
+
+    - name: Build Training Image
+      uses: ams0/acr-task-github-action@v1
+      with:
+        # Service Principal with Contributor role on the ACR
+        service_principal: ${{ secrets.SERVICE_PRINCIPAL }}
+        # Service Principal password
+        service_principal_password: ${{ secrets.SERVICE_PRINCIPAL_PWD }}
+        # Azure Container Registry tenant
+        tenant: ${{ secrets.TENANT }}
+        # The name of the ACR, minus the .azurecr.io
+        registry: ${{ env.ACR_REGISTRY }}
+        # Repository to use
+        repository: ${{ env.ACR_REPOSITORY }}
+        branch: kubeflow
+        tag: latest
+        # Docker image name
+        image: training
+        # The folder in the Github repo that holds the source
+        folder: code/training
+
+  build_kfp_pipeline:
+    runs-on: ubuntu-latest
+    needs: build_images
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    
+    - name: Install KFP SDK
+      run: pip3 install kfp --upgrade
+
+    - name: Build KF Pipeline
+      run: python pipeline.py
+      working-directory: code
+
+    # - name: Publish/Upload KF Pipeline
+    #   run: python publish_pipeline.py
+    #   working-directory: code
+
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        # Artifact name
+        name: kfp-pipeline        
+        path: 'code/pipeline.py.tar.gz'
+
+
+        # Runs a single command using the runners shell
     # - name: Run lint tests
     #   run: flake8 --output-file=lint-testresults.xml --format junit-xml
     
