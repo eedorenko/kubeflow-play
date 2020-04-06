@@ -14,8 +14,7 @@ env:
 
 jobs:
   code_quality_checks:
-    if: contains(github.event.comment.body, '/build-pipeline') || 
-        github.event_name == 'push' && github.ref == 'master'
+    if: contains(github.event.comment.body, '/build-pipeline') || github.event_name != 'issue_comment' 
     runs-on: ubuntu-latest
     steps:
     - run: echo "code_quality_checks"
