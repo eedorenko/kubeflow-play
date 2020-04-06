@@ -1,0 +1,29 @@
+name: chatops
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  issue_comment:
+    types: [created]
+
+
+env:
+  ACR_REGISTRY: 'kubeflowyoacr'
+  ACR_REPOSITORY: 'mexicanfood'
+
+jobs:
+  code_quality_checks:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "code_quality_checks"
+
+  ci:
+    runs-on: ubuntu-latest
+    needs: code_quality_checks
+    if: github.event.issue.pull_request != null &&  contains(github.event.comment.body, '/build-pipeline') || 
+        github.event_name == 'push' && github.ref == 'master'
+    steps:
+    - run: echo "ci"    
+
+  
