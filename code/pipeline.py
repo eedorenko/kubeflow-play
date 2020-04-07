@@ -24,7 +24,7 @@ def tacosandburritos_train(
     batch = 32
     learning_rate = 0.0001
     model_name = 'tacosandburritos'
-    profile_name = 'tacoprofile'
+    # profile_name = 'tacoprofile'
     operations = {}
     image_size = 160
     training_folder = 'train'
@@ -128,7 +128,7 @@ def tacosandburritos_train(
     )
     # operations['deploy'].after(operations['profile'])
     operations['deploy'].after(operations['register'])
-    
+
     for _, op_1 in operations.items():
         op_1.container.set_image_pull_policy("Always")
         op_1.add_volume(
