@@ -23,6 +23,7 @@ jobs:
 
     runs-on: ubuntu-latest
     if: contains(github.event.comment.body, '/build-pipeline') || contains(github.event.comment.body, '/build-images') || github.event_name != 'issue_comment' 
+    
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - uses: actions/checkout@v2
