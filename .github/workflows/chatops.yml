@@ -17,7 +17,7 @@ jobs:
     if: contains(github.event.comment.body, '/build-pipeline') || github.event_name != 'issue_comment' 
     runs-on: ubuntu-latest
     steps:
-    - run: echo "code_quality_checks"
+    - run: echo "this is code_quality_checks"
 
   ci:
     runs-on: ubuntu-latest
