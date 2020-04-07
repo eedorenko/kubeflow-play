@@ -2,10 +2,10 @@ name: chatops
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  issue_comment:
-    types: [created]
+  # pull_request:
+  #   branches: [ master ]
+  # issue_comment:
+  #   types: [created]
 
 
 env:
