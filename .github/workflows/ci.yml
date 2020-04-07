@@ -27,6 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - if: github.event_name == 'issue_comment' 
+      name: Checkout PR code
       run: |
        git fetch origin +refs/pull/${{ github.event.issue.number }}/merge
        git checkout FETCH_HEAD
