@@ -49,6 +49,8 @@ def main():
     host = args.kfp_host
     pipeline_file_path = args.pipeline_file_path
     pipeline_name = "{0}-{1}".format(args.pipeline_name, args.run_id)
+    print("host:")
+    print(host)
     # experiment_name = args.experiment_name
 
     client = kfp.Client(host=host)
