@@ -43,7 +43,9 @@ jobs:
     if: github.event_name == 'push' || github.event_name == 'issue_comment'
     steps:
     - uses: actions/checkout@v2
+      if: contains(github.event.comment.body, '/build-images')
     - name: Build Preprocess Image
+      if: contains(github.event.comment.body, '/build-images')
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
@@ -64,6 +66,7 @@ jobs:
         folder: code/preprocess
     
     - name: Build Profile Image
+      if: contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
@@ -84,6 +87,7 @@ jobs:
         folder: code/profile
 
     - name: Build Deploy Image
+      if: contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
@@ -104,6 +108,7 @@ jobs:
         folder: code/deploy
 
     - name: Build Register Image
+      if: contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
@@ -124,6 +129,7 @@ jobs:
         folder: code/register
 
     - name: Build Training Image
+      if: contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
