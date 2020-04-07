@@ -53,12 +53,13 @@ def main():
 
     client = kfp.Client(host=host)
     pipeline_file = os.path.join(pipeline_file_path)
-    try: 
+    try:
         # We upload a new pipline every time with a run_id in the pipeline name
         # until the issue with uploading a pipeline version is resolved
         # see  https://github.com/kubeflow/pipelines/issues/3442
-        pipeline = client.pipeline_uploads.upload_pipeline(pipeline_file, name=pipeline_name)  # noqa: E501
-        
+        # pipeline = client.pipeline_uploads.upload_pipeline(pipeline_file, name=pipeline_name)  # noqa: E501
+        client.pipeline_uploads.upload_pipeline(pipeline_file, name=pipeline_name)  # noqa: E501
+
         # pipeline_params = {}
         # pipeline_params["tenant_id"] = "72f988bf-86f1-41af-91ab-2d7cd011db47"  # noqa: E501
         # pipeline_params["service_principal_id"] = "6e85e789-3b22-4edb-89d0-2ab7fc09d488"  # noqa: E501
@@ -68,12 +69,13 @@ def main():
         # pipeline_params["workspace"] = "kubeflowyo-aml-ws"  # noqa: E501
         # exp = client.get_experiment(experiment_name=experiment_name)  # noqa: E501
         # client.run_pipeline(exp.id, job_name=pipeline_name, pipeline_package_path=pipeline_file, params=pipeline_params, pipeline_id="81ccc728-d6a0-4260-b6f7-21f20779c640")  # noqa: E501
-        
+
     except TypeError as err:
         print("An error related to this issue https://github.com/kubeflow/pipelines/issues/3441 {0}".format(err))  # noqa: E501
     # pipeline_version = client.pipeline_uploads.upload_pipeline_version(pipeline_file,  # noqa: E501  # noqa: E501
     #                                                                    name="Version1",  # noqa: E501  # noqa: E501
     #                                                                    pipelineid=pipeline.id)  # noqa: E501  # noqa: E501
+
 
 if __name__ == '__main__':
     main()
