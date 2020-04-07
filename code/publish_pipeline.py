@@ -1,7 +1,6 @@
 import kfp
 import os
 import kfp_server_api.api_client
-import kfp_server_api.models.api_pipeline_version
 
 
 host = "http://localhost:8080/pipeline"
