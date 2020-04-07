@@ -59,7 +59,7 @@ def main():
         # see  https://github.com/kubeflow/pipelines/issues/3442
         # pipeline = client.pipeline_uploads.upload_pipeline(pipeline_file, name=pipeline_name)  # noqa: E501
         client.pipeline_uploads.upload_pipeline(pipeline_file, name=pipeline_name)  # noqa: E501
-
+        
         # pipeline_params = {}
         # pipeline_params["tenant_id"] = "72f988bf-86f1-41af-91ab-2d7cd011db47"  # noqa: E501
         # pipeline_params["service_principal_id"] = "6e85e789-3b22-4edb-89d0-2ab7fc09d488"  # noqa: E501
