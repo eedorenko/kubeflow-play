@@ -15,7 +15,7 @@ env:
 
 jobs:
   code_quality_checks:
-    if: contains(github.event.comment.body, env.CI_TRIGGER_PHRASE) || github.event_name != 'issue_comment' 
+    if: contains(github.event.comment.body, $CI_TRIGGER_PHRASE) || github.event_name != 'issue_comment' 
     runs-on: ubuntu-latest
     steps:
     - run: echo "this is code_quality_checks"
