@@ -13,7 +13,3 @@ pipeline = client.pipeline_uploads.upload_pipeline(pipeline_file, name=pipeline_
 pipeline_version = client.pipeline_uploads.upload_pipeline_version(pipeline_file,  # noqa: E501
                                                                    name="Version1",  # noqa: E501
                                                                    pipelineid=pipeline.id)  # noqa: E501
-                                                                   
-
-
-
