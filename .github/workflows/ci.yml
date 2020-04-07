@@ -43,6 +43,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       if: contains(github.event.comment.body, '/build-images')
+    - if: github.event_name == 'issue_comment' && contains(github.event.comment.body, '/build-images')
+      name: Checkout PR code
+      run: |
+       git fetch origin +refs/pull/${{ github.event.issue.number }}/merge
+       git checkout FETCH_HEAD
     - name: Build Preprocess Image
       if: contains(github.event.comment.body, '/build-images')
       uses: ams0/acr-task-github-action@v1
@@ -154,6 +159,12 @@ jobs:
     if: github.event_name == 'push' || github.event_name == 'issue_comment' && contains(github.event.comment.body, '/build-pipeline')
     steps:
     - uses: actions/checkout@v2
+    - if: github.event_name == 'issue_comment' 
+      name: Checkout PR code
+      run: |
+       git fetch origin +refs/pull/${{ github.event.issue.number }}/merge
+       git checkout FETCH_HEAD
+
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
       with:
