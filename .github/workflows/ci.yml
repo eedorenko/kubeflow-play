@@ -191,17 +191,24 @@ jobs:
         RUN_ID: ${{ github.run_id }}
       run: |        
         export PIPELINE_ID=$(python publish_pipeline.py --run_id $RUN_ID --pipeline_name "$KFP_PIPELINE_NAME" --kfp_host $KFP_HOST 2>&1 >/dev/null)
-        echo "$PIPELINE_ID" $PIPELINE_ID
         echo "::set-env name=PUBLISHED_PIPELINE_ID::$PIPELINE_ID"
       working-directory: code
 
     - name: Run Pipeline ID
       env:
         KFP_PIPELINE_NAME: ${{ secrets.KFP_PIPELINE_NAME }} 
-        KFP_HOST: ${{ secrets.KFP_HOST }}
-        RUN_ID: ${{ github.run_id }}
+        KFP_HOST: ${{ secrets.KFP_HOST }}    
       run: |
-        echo $PUBLISHED_PIPELINE_ID
+        python run_pipeline.py --kfp_host $KFP_HOST --tenant_id ${{ secrets.tenant_id }} \
+                              --service_principal_id ${{ secrets.service_principal_id }} \
+                              --service_principal_password ${{ secrets.service_principal_password }} \
+                              --subscription_id ${{ secrets.subscription_id }} \
+                              --resource_group ${{ secrets.resource_group }} \
+                              --workspace ${{ secrets.workspace }} \
+                              --pipeline_id $PUBLISHED_PIPELINE_ID \
+                              --run_name $KFP_PIPELINE_NAME \
+                              --experiment_name ${{ secrets.experiment_name }}
+
       working-directory: code
 
     - name: Upload artifact
