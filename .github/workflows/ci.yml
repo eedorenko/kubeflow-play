@@ -175,7 +175,9 @@ jobs:
         python-version: 3.7
     
     - name: Install KFP SDK
-      run: pip3 install kfp --upgrade
+      run: |
+        pip3 install kfp --upgrade
+        cp code/sdk-fix/api_pipeline_version.py /usr/local/lib/python3.7/site-packages/kfp_server_api/models/
 
     - name: Build KF Pipeline
       run: python pipeline.py
@@ -187,7 +189,7 @@ jobs:
         KFP_PIPELINE_NAME: ${{ secrets.KFP_PIPELINE_NAME }} 
         KFP_HOST: ${{ secrets.KFP_HOST }}
         RUN_ID: ${{ github.run_id }}
-      run: |
+      run: |        
         export PIPELINE_ID=$(python publish_pipeline.py --run_id $RUN_ID --pipeline_name "$KFP_PIPELINE_NAME" --kfp_host $KFP_HOST 2>&1 >/dev/null)
         echo "$PIPELINE_ID" $PIPELINE_ID
         echo "::set-env name=PUBLISHED_PIPELINE_ID::$PIPELINE_ID"
