@@ -186,7 +186,7 @@ jobs:
         KFP_HOST: ${{ secrets.KFP_HOST }}
       run: |
         echo $KFP_PIPELINE_NAME $KFP_HOST
-        python publish_pipeline.py --run_id github.run_id --pipeline_name "$KFP_PIPELINE_NAME" --kfp_host $KFP_HOST
+        python publish_pipeline.py --run_id $github.run_id --pipeline_name "$KFP_PIPELINE_NAME" --kfp_host $KFP_HOST
       working-directory: code
 
 
