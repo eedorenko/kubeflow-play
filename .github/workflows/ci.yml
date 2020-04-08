@@ -188,7 +188,8 @@ jobs:
         KFP_HOST: ${{ secrets.KFP_HOST }}
         RUN_ID: ${{ github.run_id }}
       run: |
-        PIPELINE_ID = python publish_pipeline.py --run_id $RUN_ID --pipeline_name "$KFP_PIPELINE_NAME" --kfp_host $KFP_HOST
+        export PIPELINE_ID = python publish_pipeline.py --run_id $RUN_ID --pipeline_name "$KFP_PIPELINE_NAME" --kfp_host $KFP_HOST
+        echo $PIPELINE_ID
         echo "::set-env name=PUBLISHED_PIPELINE_ID::$PIPELINE_ID"
       working-directory: code
 
