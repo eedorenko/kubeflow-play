@@ -81,7 +81,8 @@ def tacosandburritos_train(
             '--service_principal_password', service_principal_password,
             '--subscription_id', subscription_id,
             '--resource_group', resource_group,
-            '--workspace', workspace
+            '--workspace', workspace,
+            '--run_id', dsl.RUN_ID_PLACEHOLDER
         ]
     )
     operations['register'].after(operations['training'])
