@@ -194,6 +194,13 @@ jobs:
         echo "::set-env name=PUBLISHED_PIPELINE_ID::$PIPELINE_ID"
       working-directory: code
 
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        # Artifact name
+        name: kfp-pipeline        
+        path: 'code/pipeline.py.tar.gz'
+
     - name: Run Pipeline ID
       env:
         KFP_PIPELINE_NAME: ${{ secrets.KFP_PIPELINE_NAME }} 
@@ -208,16 +215,9 @@ jobs:
                                --resource_group ${{ secrets.RESOURCE_GROUP }} \
                                --workspace ${{ secrets.AML_WORKSPACE }} \
                                --pipeline_id $PUBLISHED_PIPELINE_ID \
-                               --run_name $KFP_PIPELINE_NAME
-
+                               --run_name "$KFP_PIPELINE_NAME"
       working-directory: code
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        # Artifact name
-        name: kfp-pipeline        
-        path: 'code/pipeline.py.tar.gz'
 
 
     # Runs a single command using the runners shell
