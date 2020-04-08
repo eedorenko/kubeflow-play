@@ -127,7 +127,7 @@ jobs:
         registry: ${{ env.ACR_REGISTRY }}
         # Repository to use
         repository: ${{ env.ACR_REPOSITORY }}
-        branch: kubeflow
+        branch: ${GITHUB_REF#refs/heads/}
         tag: latest
         # Docker image name
         image: register
