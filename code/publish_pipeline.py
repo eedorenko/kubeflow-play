@@ -58,8 +58,8 @@ def main():
         # until the issue with uploading a pipeline version is resolved
         # see  https://github.com/kubeflow/pipelines/issues/3442
         pipeline = client.pipeline_uploads.upload_pipeline(pipeline_file, name=pipeline_name)  # noqa: E501
-        pint("pipeline.id")
-        pint(pipeline.id)
+        print("pipeline.id")
+        print(pipeline.id)
         return pipeline.id
 
         # pipeline_params = {}
