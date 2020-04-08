@@ -153,6 +153,7 @@ jobs:
         # The folder in the Github repo that holds the source
         folder: code/training
 
+
   build_kfp_pipeline:
     runs-on: ubuntu-latest
     needs: build_images
@@ -178,7 +179,7 @@ jobs:
       working-directory: code
 
     - name: Publish/Upload KF Pipeline
-      run: python publish_pipeline.py --run_id $github.run_id --pipeline_name $secrets.KFP_PIPELINE_NAME
+      run: python publish_pipeline.py --run_id $github.run_id --pipeline_name $secrets.KFP_PIPELINE_NAME --kfp_host $secrets.KFP_HOST
       working-directory: code
 
 
