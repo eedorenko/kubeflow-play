@@ -90,6 +90,7 @@ jobs:
         # The folder in the Github repo that holds the source
         folder: code/profile
 
+        
     - name: Build Deploy Image
       if: contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
