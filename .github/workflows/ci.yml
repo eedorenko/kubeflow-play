@@ -49,7 +49,7 @@ jobs:
        git fetch origin +refs/pull/${{ github.event.issue.number }}/merge
        git checkout FETCH_HEAD
     - name: Build Preprocess Image
-      if: contains(github.event.comment.body, '/build-images')
+      if: github.event_name == 'push' || contains(github.event.comment.body, '/build-images')
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
@@ -70,7 +70,7 @@ jobs:
         folder: code/preprocess
     
     - name: Build Profile Image
-      if: contains(github.event.comment.body, '/build-images')    
+      if: github.event_name == 'push' || contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
@@ -92,7 +92,7 @@ jobs:
 
 
     - name: Build Deploy Image
-      if: contains(github.event.comment.body, '/build-images')    
+      if: github.event_name == 'push' || contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
@@ -113,7 +113,7 @@ jobs:
         folder: code/deploy
 
     - name: Build Register Image
-      if: contains(github.event.comment.body, '/build-images')    
+      # if: github.event_name == 'push' || contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
@@ -134,7 +134,7 @@ jobs:
         folder: code/register
 
     - name: Build Training Image
-      if: contains(github.event.comment.body, '/build-images')    
+      if: github.event_name == 'push' || contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
