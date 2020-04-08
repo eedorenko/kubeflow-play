@@ -90,6 +90,7 @@ jobs:
         # The folder in the Github repo that holds the source
         folder: code/profile
 
+
     - name: Build Deploy Image
       if: contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
@@ -179,7 +180,10 @@ jobs:
       working-directory: code
 
     - name: Publish/Upload KF Pipeline
-      run: python publish_pipeline.py --run_id $github.run_id --pipeline_name $secrets.KFP_PIPELINE_NAME --kfp_host $secrets.KFP_HOST
+      env:
+        KFP_PIPELINE_NAME: ${{ secrets.KFP_PIPELINE_NAME }} 
+        KFP_HOST: ${{ secrets.KFP_HOST }}
+      run: python publish_pipeline.py --run_id $github.run_id --pipeline_name $KFP_PIPELINE_NAME --kfp_host $KFP_HOST
       working-directory: code
 
 
@@ -191,7 +195,7 @@ jobs:
         path: 'code/pipeline.py.tar.gz'
 
 
-        # Runs a single command using the runners shell
+    # Runs a single command using the runners shell
     # - name: Run lint tests
     #   run: flake8 --output-file=lint-testresults.xml --format junit-xml
     
