@@ -167,6 +167,8 @@ jobs:
        git fetch origin +refs/pull/${{ github.event.issue.number }}/merge
        git checkout FETCH_HEAD
 
+    # All this stuff building/publishing/running pipeline should go to a custom action
+    # so the workflow is cleaner   
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
       with:
@@ -186,10 +188,18 @@ jobs:
         KFP_HOST: ${{ secrets.KFP_HOST }}
         RUN_ID: ${{ github.run_id }}
       run: |
-        echo $KFP_PIPELINE_NAME $KFP_HOST
-        python publish_pipeline.py --run_id $RUN_ID --pipeline_name "$KFP_PIPELINE_NAME" --kfp_host $KFP_HOST
+        PIPELINE_ID = python publish_pipeline.py --run_id $RUN_ID --pipeline_name "$KFP_PIPELINE_NAME" --kfp_host $KFP_HOST
+        echo "::set-env name=PUBLISHED_PIPELINE_ID::$PIPELINE_ID"
       working-directory: code
 
+    - name: Run Pipeline ID
+      env:
+        KFP_PIPELINE_NAME: ${{ secrets.KFP_PIPELINE_NAME }} 
+        KFP_HOST: ${{ secrets.KFP_HOST }}
+        RUN_ID: ${{ github.run_id }}
+      run: |
+        echo $PUBLISHED_PIPELINE_ID
+      working-directory: code
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
