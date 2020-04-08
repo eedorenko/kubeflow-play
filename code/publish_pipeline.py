@@ -57,9 +57,9 @@ def main():
         # We upload a new pipline every time with a run_id in the pipeline name
         # until the issue with uploading a pipeline version is resolved
         # see  https://github.com/kubeflow/pipelines/issues/3442
-        pipeline = client.pipeline_uploads.upload_pipeline(pipeline_file, name=pipeline_name)  # noqa: E501    
+        pipeline = client.pipeline_uploads.upload_pipeline(pipeline_file, name=pipeline_name)  # noqa: E501
         return pipeline.id
-        
+
         # pipeline_params = {}
         # pipeline_params["tenant_id"] = "72f988bf-86f1-41af-91ab-2d7cd011db47"  # noqa: E501
         # pipeline_params["service_principal_id"] = "6e85e789-3b22-4edb-89d0-2ab7fc09d488"  # noqa: E501
