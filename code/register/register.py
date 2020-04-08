@@ -62,6 +62,7 @@ if __name__ == "__main__":
     parser.add_argument('-u', '--subscription_id', help='subscription_id')
     parser.add_argument('-r', '--resource_group', help='resource_group')
     parser.add_argument('-w', '--workspace', help='workspace')
+    parser.add_argument('-ri', '--run_id', help='pieline run id')
     args = parser.parse_args()
 
     print('Azure ML SDK Version: {}'.format(azureml.core.VERSION))
@@ -96,6 +97,7 @@ if __name__ == "__main__":
     with(open(str(params_path), 'r')) as f:
         tags = json.load(f)
 
+    tags['run_id'] = args.run_id
     print('\n\nUsing the following tags:')
     for tag in tags:
         print('{} => {}'.format(tag, tags[tag]))
