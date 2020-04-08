@@ -3,7 +3,7 @@ name: CI
 #  - PR to master (code_quality_checks only)
 #  - Push to master (full cycle)
 #  - PR comment "/build-images" (code_quality_checks + build images)
-#  - PR comment "/build-pipeline" (full cycle)
+#  - PR comment "/build-pipeline" (code_quality_checks + build kfp pipeline)
 on:
   push:
     branches: [ master ]
@@ -43,14 +43,7 @@ jobs:
     needs: code_quality_checks
     # if: github.event_name == 'push' || github.event_name == 'issue_comment'
     steps:
-    - uses: actions/checkout@v2
-      # if: github.event_name == 'push' || contains(github.event.comment.body, '/build-images')
 
-    - if: github.event_name == 'issue_comment' && contains(github.event.comment.body, '/build-images')
-      name: Checkout PR code
-      run: |
-       git fetch origin +refs/pull/${{ github.event.issue.number }}/merge
-       git checkout FETCH_HEAD
     - name: Build Preprocess Image
       if: github.event_name == 'push' || contains(github.event.comment.body, '/build-images')
       uses: ams0/acr-task-github-action@v1
@@ -65,7 +58,7 @@ jobs:
         registry: ${{ env.ACR_REGISTRY }}
         # Repository to use
         repository: ${{ env.ACR_REPOSITORY }}
-        branch: kubeflow
+        branch: ${{ github.ref }}
         tag: latest
         # Docker image name
         image: preprocess
@@ -86,7 +79,7 @@ jobs:
         registry: ${{ env.ACR_REGISTRY }}
         # Repository to use
         repository: ${{ env.ACR_REPOSITORY }}
-        branch: kubeflow
+        branch: ${{ github.ref }}
         tag: latest
         # Docker image name
         image: profile
@@ -95,7 +88,7 @@ jobs:
 
 
     - name: Build Deploy Image
-      if: github.event_name == 'push' || contains(github.event.comment.body, '/build-images')    
+      # if: github.event_name == 'push' || contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
@@ -108,7 +101,7 @@ jobs:
         registry: ${{ env.ACR_REGISTRY }}
         # Repository to use
         repository: ${{ env.ACR_REPOSITORY }}
-        branch: kubeflow
+        branch: ${{ github.ref }}
         tag: latest
         # Docker image name
         image: deploy
@@ -116,7 +109,7 @@ jobs:
         folder: code/deploy
 
     - name: Build Register Image
-      # if: github.event_name == 'push' || contains(github.event.comment.body, '/build-images')    
+      if: github.event_name == 'push' || contains(github.event.comment.body, '/build-images')    
       uses: ams0/acr-task-github-action@v1
       with:
         # Service Principal with Contributor role on the ACR
@@ -150,7 +143,7 @@ jobs:
         registry: ${{ env.ACR_REGISTRY }}
         # Repository to use
         repository: ${{ env.ACR_REPOSITORY }}
-        branch: kubeflow
+        branch: ${{ github.ref }}
         tag: latest
         # Docker image name
         image: training
