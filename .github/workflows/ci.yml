@@ -198,15 +198,15 @@ jobs:
       env:
         KFP_PIPELINE_NAME: ${{ secrets.KFP_PIPELINE_NAME }} 
         KFP_HOST: ${{ secrets.KFP_HOST }}    
-        TENANT_ID: ${{ secrets.tenant_id }}
+        TENANT_ID: ${{ secrets.tenant }}
       run: |
         python run_pipeline.py --kfp_host $KFP_HOST \
                                --tenant_id $TENANT_ID \
-                               --service_principal_id ${{ secrets.service_principal_id }} \
-                               --service_principal_password ${{ secrets.service_principal_password }} \
-                               --subscription_id ${{ secrets.subscription_id }} \
-                               --resource_group ${{ secrets.resource_group }} \
-                               --workspace ${{ secrets.workspace }} \
+                               --service_principal_id ${{ secrets.SERVICE_PRINCIPAL }} \
+                               --service_principal_password ${{ secrets.SERVICE_PRINCIPAL_PWD }} \
+                               --subscription_id ${{ secrets.SUBSCRIPTION_ID }} \
+                               --resource_group ${{ secrets.RESOURCE_GROUP }} \
+                               --workspace ${{ secrets.AML_WORKSPACE }} \
                                --pipeline_id $PUBLISHED_PIPELINE_ID \
                                --run_name $KFP_PIPELINE_NAME
 
