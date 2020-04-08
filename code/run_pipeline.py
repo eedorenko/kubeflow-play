@@ -1,5 +1,4 @@
 import kfp
-import os
 import argparse
 
 
@@ -55,7 +54,7 @@ def main():
         required=True,
         help="AML Workspace"
     )
-    
+
     parser.add_argument(
         "--pipeline_id",
         type=str,

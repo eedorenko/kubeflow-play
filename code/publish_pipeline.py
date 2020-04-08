@@ -36,7 +36,6 @@ def main():
         help="KFP pipeline name "
     )
 
-
     args = parser.parse_args()
 
     host = args.kfp_host
@@ -53,7 +52,7 @@ def main():
         return pipeline.id
 
     except TypeError as err:
-        print("An error related to this issue https://github.com/kubeflow/pipelines/issues/3441 {0}".format(err))  # noqa: E501        
+        print("An error related to this issue https://github.com/kubeflow/pipelines/issues/3441 {0}".format(err))  # noqa: E501
     # pipeline_version = client.pipeline_uploads.upload_pipeline_version(pipeline_file,  # noqa: E501  # noqa: E501
     #                                                                    name="Version1",  # noqa: E501  # noqa: E501
     #                                                                    pipelineid=pipeline.id)  # noqa: E501  # noqa: E501
