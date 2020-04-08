@@ -177,7 +177,7 @@ jobs:
     - name: Install KFP SDK
       run: |
         pip3 install kfp --upgrade
-        cp code/sdk-fix/api_pipeline_version.py /usr/local/lib/python3.7/site-packages/kfp_server_api/models/
+        cp code/sdk-fix/api_pipeline_version.py /usr/local/lib/python3.7/dist-packages/kfp_server_api/models/
 
     - name: Build KF Pipeline
       run: python pipeline.py
