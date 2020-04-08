@@ -129,7 +129,7 @@ jobs:
         registry: ${{ env.ACR_REGISTRY }}
         # Repository to use
         repository: ${{ env.ACR_REPOSITORY }}
-        branch: ${{ GITHUB_REF#refs/heads/ }}
+        branch: ${{ github.ref }}
         tag: latest
         # Docker image name
         image: register
