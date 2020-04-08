@@ -158,7 +158,7 @@ jobs:
   build_kfp_pipeline:
     runs-on: ubuntu-latest
     needs: build_images
-    if: github.event_name == 'push' || github.event_name == 'issue_comment' && contains(github.event.comment.body, '/build-pipeline')
+    # if: github.event_name == 'push' || github.event_name == 'issue_comment' && contains(github.event.comment.body, '/build-pipeline')
     steps:
     - uses: actions/checkout@v2
     - if: github.event_name == 'issue_comment' 
@@ -179,12 +179,14 @@ jobs:
       run: python pipeline.py
       working-directory: code
 
-      
+
     - name: Publish/Upload KF Pipeline
       env:
         KFP_PIPELINE_NAME: ${{ secrets.KFP_PIPELINE_NAME }} 
         KFP_HOST: ${{ secrets.KFP_HOST }}
-      run: python publish_pipeline.py --run_id $github.run_id --pipeline_name $KFP_PIPELINE_NAME --kfp_host $KFP_HOST
+      run: |
+        echo $KFP_PIPELINE_NAME $KFP_HOST
+        python publish_pipeline.py --run_id $github.run_id --pipeline_name $KFP_PIPELINE_NAME --kfp_host $KFP_HOST
       working-directory: code
 
 
