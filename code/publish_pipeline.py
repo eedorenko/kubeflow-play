@@ -77,5 +77,5 @@ def main():
     #                                                                    pipelineid=pipeline.id)  # noqa: E501  # noqa: E501
 
 
-if __name__ == '__main__':    
+if __name__ == '__main__':
     exit(main())
