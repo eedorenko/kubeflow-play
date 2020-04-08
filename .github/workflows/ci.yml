@@ -26,6 +26,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - if: github.event_name == 'issue_comment' 
+      # Perhaps it can be changed to something smarter
+      # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
       name: Checkout PR code
       run: |
        git fetch origin +refs/pull/${{ github.event.issue.number }}/merge
@@ -127,7 +129,7 @@ jobs:
         registry: ${{ env.ACR_REGISTRY }}
         # Repository to use
         repository: ${{ env.ACR_REPOSITORY }}
-        branch: ${GITHUB_REF#refs/heads/}
+        branch: ${{ GITHUB_REF#refs/heads/ }}
         tag: latest
         # Docker image name
         image: register
