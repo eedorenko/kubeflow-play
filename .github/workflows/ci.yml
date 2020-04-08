@@ -179,7 +179,7 @@ jobs:
       working-directory: code
 
     - name: Publish/Upload KF Pipeline
-      run: python publish_pipeline.py --run_id $github.run_id --pipeline_name $secrets.KFP_PIPELINE_NAME --kfp_host http://google.com
+      run: python publish_pipeline.py --run_id $github.run_id --pipeline_name $secrets.KFP_PIPELINE_NAME --kfp_host $secrets.KFP_HOST
       working-directory: code
 
 
