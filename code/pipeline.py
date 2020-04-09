@@ -32,60 +32,60 @@ def tacosandburritos_train(
     model_folder = 'model'
     image_repo_name = "kubeflowyoacr.azurecr.io/mexicanfood"
 
-    # preprocess data
-    # operations['preprocess'] = dsl.ContainerOp(
-    #     name='preprocess',
-    #     image=image_repo_name + '/preprocess:latest',
-    #     command=['python'],
-    #     arguments=[
-    #         '/scripts/data.py',
-    #         '--base_path', persistent_volume_path,
-    #         '--data', training_folder,
-    #         '--target', training_dataset,
-    #         '--img_size', image_size,
-    #         '--zipfile', data_download
-    #     ]
-    # )
+    preprocess data
+    operations['preprocess'] = dsl.ContainerOp(
+        name='preprocess',
+        image=image_repo_name + '/preprocess:latest',
+        command=['python'],
+        arguments=[
+            '/scripts/data.py',
+            '--base_path', persistent_volume_path,
+            '--data', training_folder,
+            '--target', training_dataset,
+            '--img_size', image_size,
+            '--zipfile', data_download
+        ]
+    )
 
-    # train
-    # operations['training'] = dsl.ContainerOp(
-    #     name='training',
-    #     image=image_repo_name + '/training:latest',
-    #     command=['python'],
-    #     arguments=[
-    #         '/scripts/train.py',
-    #         '--base_path', persistent_volume_path,
-    #         '--data', training_folder,
-    #         '--epochs', epochs,
-    #         '--batch', batch,
-    #         '--image_size', image_size,
-    #         '--lr', learning_rate,
-    #         '--outputs', model_folder,
-    #         '--dataset', training_dataset
-    #     ]
-    # )
-    # operations['training'].after(operations['preprocess'])
+    train
+    operations['training'] = dsl.ContainerOp(
+        name='training',
+        image=image_repo_name + '/training:latest',
+        command=['python'],
+        arguments=[
+            '/scripts/train.py',
+            '--base_path', persistent_volume_path,
+            '--data', training_folder,
+            '--epochs', epochs,
+            '--batch', batch,
+            '--image_size', image_size,
+            '--lr', learning_rate,
+            '--outputs', model_folder,
+            '--dataset', training_dataset
+        ]
+    )
+    operations['training'].after(operations['preprocess'])
 
-    # register model
-    # operations['register'] = dsl.ContainerOp(
-    #     name='register',
-    #     image=image_repo_name + '/register:latest',
-    #     command=['python'],
-    #     arguments=[
-    #         '/scripts/register.py',
-    #         '--base_path', persistent_volume_path,
-    #         '--model', 'latest.h5',
-    #         '--model_name', model_name,
-    #         '--tenant_id', tenant_id,
-    #         '--service_principal_id', service_principal_id,
-    #         '--service_principal_password', service_principal_password,
-    #         '--subscription_id', subscription_id,
-    #         '--resource_group', resource_group,
-    #         '--workspace', workspace,
-    #         '--run_id', dsl.RUN_ID_PLACEHOLDER
-    #     ]
-    # )
-    # operations['register'].after(operations['training'])
+    register model
+    operations['register'] = dsl.ContainerOp(
+        name='register',
+        image=image_repo_name + '/register:latest',
+        command=['python'],
+        arguments=[
+            '/scripts/register.py',
+            '--base_path', persistent_volume_path,
+            '--model', 'latest.h5',
+            '--model_name', model_name,
+            '--tenant_id', tenant_id,
+            '--service_principal_id', service_principal_id,
+            '--service_principal_password', service_principal_password,
+            '--subscription_id', subscription_id,
+            '--resource_group', resource_group,
+            '--workspace', workspace,
+            '--run_id', dsl.RUN_ID_PLACEHOLDER
+        ]
+    )
+    operations['register'].after(operations['training'])
 
     # operations['profile'] = dsl.ContainerOp(
     #   name='profile',
@@ -129,7 +129,7 @@ def tacosandburritos_train(
         ]
     )
     # operations['deploy'].after(operations['profile'])
-    # operations['deploy'].after(operations['register'])
+    operations['deploy'].after(operations['register'])
 
     for _, op_1 in operations.items():
         op_1.container.set_image_pull_policy("Always")
