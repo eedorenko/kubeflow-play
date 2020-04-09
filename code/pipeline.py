@@ -32,7 +32,7 @@ def tacosandburritos_train(
     model_folder = 'model'
     image_repo_name = "kubeflowyoacr.azurecr.io/mexicanfood"
 
-    preprocess data
+    # preprocess data
     operations['preprocess'] = dsl.ContainerOp(
         name='preprocess',
         image=image_repo_name + '/preprocess:latest',
@@ -47,7 +47,7 @@ def tacosandburritos_train(
         ]
     )
 
-    train
+    # train
     operations['training'] = dsl.ContainerOp(
         name='training',
         image=image_repo_name + '/training:latest',
@@ -66,7 +66,7 @@ def tacosandburritos_train(
     )
     operations['training'].after(operations['preprocess'])
 
-    register model
+    # register model
     operations['register'] = dsl.ContainerOp(
         name='register',
         image=image_repo_name + '/register:latest',
