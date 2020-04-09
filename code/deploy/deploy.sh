@@ -1,6 +1,6 @@
 # az ml model deploy -n tacosandburritos -m tacosandburritos:1 --ic inferenceconfig.json --dc deploymentconfig.json --resource-group taco-rg --workspace-name taco-workspace --overwrite -v
 #!/bin/sh
-while getopts "m:n:i:d:s:p:u:r:w:t:b:ri:" option;
+while getopts "m:n:i:d:s:p:u:r:w:t:b:x:" option;
     do
     case "$option" in
         m ) MODEL=${OPTARG};;
@@ -14,7 +14,7 @@ while getopts "m:n:i:d:s:p:u:r:w:t:b:ri:" option;
         w ) WORKSPACE=${OPTARG};;
         t ) TENANT_ID=${OPTARG};;
         b ) BASE_PATH=${OPTARG};;
-        ri ) RUN_ID=${OPTARG};;
+        x ) RUN_ID=${OPTARG};;
     esac
 done
 az login --service-principal --username ${SERVICE_PRINCIPAL_ID} --password ${SERVICE_PRINCIPAL_PASSWORD} -t $TENANT_ID

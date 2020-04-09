@@ -125,7 +125,7 @@ def tacosandburritos_train(
             '-p', service_principal_password,
             '-u', subscription_id,
             '-b', persistent_volume_path,
-            '-ri', dsl.RUN_ID_PLACEHOLDER
+            '-x', dsl.RUN_ID_PLACEHOLDER
         ]
     )
     # operations['deploy'].after(operations['profile'])
