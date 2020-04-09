@@ -25,7 +25,7 @@ echo $MODEL
 echo $WORKSPACE
 echo $RESOURCE_GROUP
 echo $SUBSCRIPTION_ID
-model_id=$(az ml model list --model-name $MODEL --workspace-name $WORKSPACE -g $RESOURCE_GROUP --subscription-id $SUBSCRIPTION_ID | jq '.[0] | .id') 
+model_id=$(az ml model list --model-name $MODEL --workspace-name $WORKSPACE -g $RESOURCE_GROUP --subscription-id $SUBSCRIPTION_ID | jq -r '.[0] | .id') 
 echo $model_id
 
 az ml model deploy -n "mexicanfood" -m $model_id --ic $INFERENCE_CONFIG  --dc $DEPLOYMENTCONFIG -w $WORKSPACE -g $RESOURCE_GROUP --overwrite -v
