@@ -87,27 +87,6 @@ def tacosandburritos_train(
     )
     operations['register'].after(operations['training'])
 
-    # operations['profile'] = dsl.ContainerOp(
-    #   name='profile',
-    #   image=image_repo_name + '/profile:latest',
-    #   command=['sh'],
-    #   arguments=[
-    #     '/scripts/profile.sh',
-    #     '-n', profile_name,
-    #     '-m', model_name,
-    #     '-i', '/scripts/inferenceconfig.json',
-    #     '-d', '{"image":"https://www.exploreveg.org/files/2015/05/sofritas-burrito.jpeg"}',  # noqa: E501
-    #     '-t', tenant_id,
-    #     '-r', resource_group,
-    #     '-w', workspace,
-    #     '-s', service_principal_id,
-    #     '-p', service_principal_password,
-    #     '-u', subscription_id,
-    #     '-b', persistent_volume_path
-    #   ]
-    # )
-    # operations['profile'].after(operations['register'])
-
     operations['deploy'] = dsl.ContainerOp(
         name='deploy',
         image=image_repo_name + '/deploy:latest',
@@ -128,7 +107,6 @@ def tacosandburritos_train(
             '-x', dsl.RUN_ID_PLACEHOLDER
         ]
     )
-    # operations['deploy'].after(operations['profile'])
     operations['deploy'].after(operations['register'])
 
     for _, op_1 in operations.items():
