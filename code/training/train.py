@@ -26,10 +26,10 @@ def check_dir(path):
 
 
 def process_image(path, label, img_size):
-  img_raw = tf.io.read_file(path)
-  img_tensor = tf.image.decode_jpeg(img_raw, channels=3)
-  img_final = tf.image.resize(img_tensor, [img_size, img_size]) / 255
-  return img_final, label
+    img_raw = tf.io.read_file(path)
+    img_tensor = tf.image.decode_jpeg(img_raw, channels=3)
+    img_final = tf.image.resize(img_tensor, [img_size, img_size]) / 255
+    return img_final, label
 
 
 def load_dataset(base_path, dset, split=None):
