@@ -17,15 +17,15 @@ def tacosandburritos_train(
 
     persistent_volume_path = '/mnt/azure'
     data_download = 'https://aiadvocate.blob.core.windows.net/public/tacodata.zip'  # noqa: E501
-    # epochs = 2
-    # batch = 32
-    # learning_rate = 0.0001
+    epochs = 2
+    batch = 32
+    learning_rate = 0.0001
     model_name = 'tacosandburritos'
     operations = {}
     image_size = 160
     training_folder = 'train'
     training_dataset = 'train.txt'
-    # model_folder = 'model'
+    model_folder = 'model'
     image_repo_name = "kubeflowyoacr.azurecr.io/mexicanfood"
 
     # preprocess data
@@ -45,52 +45,45 @@ def tacosandburritos_train(
     )
 
     # train
-    # operations['training'] = dsl.ContainerOp(
-    #     name='training',
-    #     image=image_repo_name + '/training:latest',
-    #     command=['python'],
-    #     arguments=[
-    #         '/scripts/train.py',
-    #         '--base_path', persistent_volume_path,
-    #         '--data', training_folder,
-    #         '--epochs', epochs,
-    #         '--batch', batch,
-    #         '--image_size', image_size,
-    #         '--lr', learning_rate,
-    #         '--outputs', model_folder,
-    #         '--dataset', training_dataset
-    #     ]
-    # )
-    # operations['training'].after(operations['preprocess'])
+    operations['training'] = dsl.ContainerOp(
+        name='training',
+        image=image_repo_name + '/training:latest',
+        command=['python'],
+        arguments=[
+            '/scripts/train.py',
+            '--base_path', persistent_volume_path,
+            '--data', training_folder,
+            '--epochs', epochs,
+            '--batch', batch,
+            '--image_size', image_size,
+            '--lr', learning_rate,
+            '--outputs', model_folder,
+            '--dataset', training_dataset
+        ]
+    )
+    operations['training'].after(operations['preprocess'])
 
     # register model
-    # operations['register'] = dsl.ContainerOp(
-    #     name='register',
-    #     image=image_repo_name + '/register:latest',
-    #     command=['python'],
-    #     arguments=[
-    #         '/scripts/register.py',
-    #         '--base_path', persistent_volume_path,
-    #         '--model', 'latest.h5',
-    #         '--model_name', model_name,
-    #         '--resource_group', resource_group,
-    #         '--workspace', workspace,
-    #         '--run_id', dsl.RUN_ID_PLACEHOLDER
-    #     ]
-    # ).apply(use_azure_secret())
     operations['register'] = dsl.ContainerOp(
         name='register',
         image=image_repo_name + '/register:latest',
-        command=['sh'],
+        command=['python'],
         arguments=[
-            '-c',
-            'echo $AZ_CLIENT_ID'
-            '&&'
-            'python'
+            '/scripts/register.py',
+            '--base_path', persistent_volume_path,
+            '--model', 'latest.h5',
+            '--model_name', model_name,
+            '--tenant_id', "$(AZ_TENANT_ID)",
+            '--service_principal_id', "$(AZ_CLIENT_ID)",
+            '--service_principal_password', "$(AZ_CLIENT_SECRET)",
+            '--subscription_id', "$(AZ_SUBSCRIPTION_ID)",
+            '--resource_group', resource_group,
+            '--workspace', workspace,
+            '--run_id', dsl.RUN_ID_PLACEHOLDER
         ]
     ).apply(use_azure_secret())
-    # operations['register'].after(operations['training'])
-    operations['register'].after(operations['preprocess'])
+
+    operations['register'].after(operations['training'])
 
     operations['deploy'] = dsl.ContainerOp(
         name='deploy',
@@ -99,11 +92,15 @@ def tacosandburritos_train(
         arguments=[
             '/scripts/deploy.sh',
             '-n', model_name,
-            '-m', "$(AZ_CLIENT_ID)",
+            '-m', model_name,
             '-i', '/scripts/inferenceconfig.json',
             '-d', '/scripts/deploymentconfig.json',
+            '-t', "$(AZ_TENANT_ID)",
             '-r', resource_group,
             '-w', workspace,
+            '-s', "$(AZ_CLIENT_ID)",
+            '-p', "$(AZ_CLIENT_SECRET)",
+            '-u', "$(AZ_SUBSCRIPTION_ID)",
             '-b', persistent_volume_path,
             '-x', dsl.RUN_ID_PLACEHOLDER
         ]
