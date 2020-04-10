@@ -86,7 +86,7 @@ def tacosandburritos_train(
             '-c',
             'echo $AZ_CLIENT_ID'
             '&&'
-            'echo -e "import os\nprint(os.getenv(\'AZ_CLIENT_ID\'))" | python '
+            'python'
         ]
     ).apply(use_azure_secret())
     # operations['register'].after(operations['training'])
