@@ -45,23 +45,23 @@ def tacosandburritos_train(
     )
 
     # train
-    operations['training'] = dsl.ContainerOp(
-        name='training',
-        image=image_repo_name + '/training:latest',
-        command=['python'],
-        arguments=[
-            '/scripts/train.py',
-            '--base_path', persistent_volume_path,
-            '--data', training_folder,
-            '--epochs', epochs,
-            '--batch', batch,
-            '--image_size', image_size,
-            '--lr', learning_rate,
-            '--outputs', model_folder,
-            '--dataset', training_dataset
-        ]
-    )
-    operations['training'].after(operations['preprocess'])
+    # operations['training'] = dsl.ContainerOp(
+    #     name='training',
+    #     image=image_repo_name + '/training:latest',
+    #     command=['python'],
+    #     arguments=[
+    #         '/scripts/train.py',
+    #         '--base_path', persistent_volume_path,
+    #         '--data', training_folder,
+    #         '--epochs', epochs,
+    #         '--batch', batch,
+    #         '--image_size', image_size,
+    #         '--lr', learning_rate,
+    #         '--outputs', model_folder,
+    #         '--dataset', training_dataset
+    #     ]
+    # )
+    # operations['training'].after(operations['preprocess'])
 
     # register model
     # operations['register'] = dsl.ContainerOp(
@@ -85,9 +85,12 @@ def tacosandburritos_train(
         arguments=[
             '-c',
             'echo $AZ_CLIENT_ID'
+            '&&'
+            'echo -e "import os\nprint(os.getenv(\'AZ_CLIENT_ID\'))" | python '
         ]
     ).apply(use_azure_secret())
-    operations['register'].after(operations['training'])
+    # operations['register'].after(operations['training'])
+    operations['register'].after(operations['preprocess'])
 
     operations['deploy'] = dsl.ContainerOp(
         name='deploy',
