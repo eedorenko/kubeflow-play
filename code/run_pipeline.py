@@ -14,34 +14,6 @@ def main():
     )
 
     parser.add_argument(
-        "--tenant_id",
-        type=str,
-        required=True,
-        help="Tenant ID"
-    )
-
-    parser.add_argument(
-        "--service_principal_id",
-        type=str,
-        required=True,
-        help="Service Principal Id"
-    )
-
-    parser.add_argument(
-        "--service_principal_password",
-        type=str,
-        required=True,
-        help="Service Principal Password"
-    )
-
-    parser.add_argument(
-        "--subscription_id",
-        type=str,
-        required=True,
-        help="Subscription Id"
-    )
-
-    parser.add_argument(
         "--resource_group",
         type=str,
         required=True,
@@ -81,10 +53,6 @@ def main():
     client = kfp.Client(host=args.kfp_host)
 
     pipeline_params = {}
-    pipeline_params["tenant_id"] = args.tenant_id
-    pipeline_params["service_principal_id"] = args.service_principal_id
-    pipeline_params["service_principal_password"] = args.service_principal_password  # noqa: E501
-    pipeline_params["subscription_id"] = args.subscription_id
     pipeline_params["resource_group"] = args.resource_group
     pipeline_params["workspace"] = args.workspace
     exp = client.get_experiment(experiment_name=args.experiment_name)  # noqa: E501

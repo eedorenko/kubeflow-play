@@ -187,10 +187,6 @@ jobs:
         TENANT_ID: ${{ secrets.tenant }}
       run: |
         python run_pipeline.py --kfp_host $KFP_HOST \
-                               --tenant_id $TENANT_ID \
-                               --service_principal_id ${{ secrets.SERVICE_PRINCIPAL }} \
-                               --service_principal_password ${{ secrets.SERVICE_PRINCIPAL_PWD }} \
-                               --subscription_id ${{ secrets.SUBSCRIPTION_ID }} \
                                --resource_group ${{ secrets.RESOURCE_GROUP }} \
                                --workspace ${{ secrets.AML_WORKSPACE }} \
                                --pipeline_id $PUBLISHED_PIPELINE_ID \

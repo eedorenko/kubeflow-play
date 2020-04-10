@@ -1,4 +1,5 @@
 import json
+import os
 from os.path import relpath
 import argparse
 from pathlib2 import Path
@@ -54,12 +55,6 @@ if __name__ == "__main__":
         '-m', '--model', help='path to model file', default='/model/latest.h5')
     parser.add_argument('-n', '--model_name',
                         help='AML Model name', default='tacosandburritos')
-    parser.add_argument('-t', '--tenant_id', help='tenant_id')
-    parser.add_argument('-s', '--service_principal_id',
-                        help='service_principal_id')
-    parser.add_argument('-p', '--service_principal_password',
-                        help='service_principal_password')
-    parser.add_argument('-u', '--subscription_id', help='subscription_id')
     parser.add_argument('-r', '--resource_group', help='resource_group')
     parser.add_argument('-w', '--workspace', help='workspace')
     parser.add_argument('-ri', '--run_id', help='pieline run id')
@@ -72,10 +67,10 @@ if __name__ == "__main__":
     params_path = str(Path(args.base_path).resolve(
         strict=False).joinpath('params.json').resolve(strict=False))
     wsrgs = {
-        'tenant_id': args.tenant_id,
-        'service_principal_id': args.service_principal_id,
-        'service_principal_password': args.service_principal_password,
-        'subscription_id': args.subscription_id,
+        'tenant_id': os.getenv('AZ_TENANT_ID'),
+        'service_principal_id': os.getenv('AZ_CLIENT_ID'),
+        'service_principal_password': os.getenv('AZ_CLIENT_SECRET'),
+        'subscription_id': os.getenv('AZ_SUBSCRIPTION_ID'),
         'resource_group': args.resource_group,
         'workspace': args.workspace
     }
