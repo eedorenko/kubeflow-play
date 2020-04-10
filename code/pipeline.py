@@ -17,15 +17,15 @@ def tacosandburritos_train(
 
     persistent_volume_path = '/mnt/azure'
     data_download = 'https://aiadvocate.blob.core.windows.net/public/tacodata.zip'  # noqa: E501
-    epochs = 2
-    batch = 32
-    learning_rate = 0.0001
+    # epochs = 2
+    # batch = 32
+    # learning_rate = 0.0001
     model_name = 'tacosandburritos'
     operations = {}
     image_size = 160
     training_folder = 'train'
     training_dataset = 'train.txt'
-    model_folder = 'model'
+    # model_folder = 'model'
     image_repo_name = "kubeflowyoacr.azurecr.io/mexicanfood"
 
     # preprocess data
