@@ -37,9 +37,10 @@ def tacosandburritos_train(
 
     op = dsl.ContainerOp(
         name='preprocess',
-        image=image_repo_name + '/preprocess:latest',
+        image=image_repo_name + '/deploy:latest',
         command=['sh'],
         arguments=[
+            '-c',
             'echo $AZ_TENANT_ID'
         ]
     )
