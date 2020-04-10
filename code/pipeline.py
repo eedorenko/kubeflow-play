@@ -64,18 +64,27 @@ def tacosandburritos_train(
     operations['training'].after(operations['preprocess'])
 
     # register model
+    # operations['register'] = dsl.ContainerOp(
+    #     name='register',
+    #     image=image_repo_name + '/register:latest',
+    #     command=['python'],
+    #     arguments=[
+    #         '/scripts/register.py',
+    #         '--base_path', persistent_volume_path,
+    #         '--model', 'latest.h5',
+    #         '--model_name', model_name,
+    #         '--resource_group', resource_group,
+    #         '--workspace', workspace,
+    #         '--run_id', dsl.RUN_ID_PLACEHOLDER
+    #     ]
+    # ).apply(use_azure_secret())
     operations['register'] = dsl.ContainerOp(
         name='register',
         image=image_repo_name + '/register:latest',
-        command=['python'],
+        command=['sh'],
         arguments=[
-            '/scripts/register.py',
-            '--base_path', persistent_volume_path,
-            '--model', 'latest.h5',
-            '--model_name', model_name,
-            '--resource_group', resource_group,
-            '--workspace', workspace,
-            '--run_id', dsl.RUN_ID_PLACEHOLDER
+            '-c',
+            'echo $AZ_CLIENT_ID'
         ]
     ).apply(use_azure_secret())
     operations['register'].after(operations['training'])
