@@ -2,6 +2,7 @@
 from kubernetes import client as k8s_client
 import kfp.dsl as dsl
 import kfp.compiler as compiler
+from kfp.azure import use_azure_secret
 
 
 @dsl.pipeline(
@@ -33,19 +34,31 @@ def tacosandburritos_train(
     image_repo_name = "kubeflowyoacr.azurecr.io/mexicanfood"
 
     # preprocess data
-    operations['preprocess'] = dsl.ContainerOp(
+    
+    op = dsl.ContainerOp(
         name='preprocess',
         image=image_repo_name + '/preprocess:latest',
-        command=['python'],
+        command=['sh'],
         arguments=[
-            '/scripts/data.py',
-            '--base_path', persistent_volume_path,
-            '--data', training_folder,
-            '--target', training_dataset,
-            '--img_size', image_size,
-            '--zipfile', data_download
+            'echo $AZ_TENANT_ID'
         ]
     )
+    op.apply(use_azure_secret())
+    operations['preprocess'] = op
+
+    # operations['preprocess'] = dsl.ContainerOp(
+    #     name='preprocess',
+    #     image=image_repo_name + '/preprocess:latest',
+    #     command=['python'],
+    #     arguments=[
+    #         '/scripts/data.py',
+    #         '--base_path', persistent_volume_path,
+    #         '--data', training_folder,
+    #         '--target', training_dataset,
+    #         '--img_size', image_size,
+    #         '--zipfile', data_download
+    #     ]
+    # )
 
     # train
     operations['training'] = dsl.ContainerOp(
