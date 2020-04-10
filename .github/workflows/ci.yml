@@ -17,6 +17,7 @@ env:
   ACR_REGISTRY: 'kubeflowyoacr'
   ACR_REPOSITORY: 'mexicanfood'
 
+
 jobs:
   code_quality_checks:  
     # The type of runner that the job will run on
