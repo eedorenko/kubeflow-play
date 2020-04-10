@@ -20,7 +20,7 @@ def tacosandburritos_train(
     """Pipeline steps"""
 
     persistent_volume_path = '/mnt/azure'
-    data_download = 'https://aiadvocate.blob.core.windows.net/public/tacodata.zip'  # noqa: E501
+    # data_download = 'https://aiadvocate.blob.core.windows.net/public/tacodata.zip'  # noqa: E501
     epochs = 2
     batch = 32
     learning_rate = 0.0001
@@ -34,7 +34,7 @@ def tacosandburritos_train(
     image_repo_name = "kubeflowyoacr.azurecr.io/mexicanfood"
 
     # preprocess data
-    
+
     op = dsl.ContainerOp(
         name='preprocess',
         image=image_repo_name + '/preprocess:latest',
