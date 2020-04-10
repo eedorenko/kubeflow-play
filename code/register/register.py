@@ -1,5 +1,5 @@
 import json
-import os 
+import os
 from os.path import relpath
 import argparse
 from pathlib2 import Path
