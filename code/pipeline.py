@@ -99,7 +99,7 @@ def tacosandburritos_train(
         arguments=[
             '/scripts/deploy.sh',
             '-n', model_name,
-            '-m', '$AZ_CLIENT_ID',
+            '-m', "$(AZ_CLIENT_ID)",
             '-i', '/scripts/inferenceconfig.json',
             '-d', '/scripts/deploymentconfig.json',
             '-r', resource_group,
